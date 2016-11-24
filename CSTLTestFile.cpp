@@ -80,5 +80,6 @@ void CSTLTestFile::test(void)
 
 void CSTLTestFile::cleanup(void)
 {
-
+	std::remove("temp.txt");
+	std::remove("temp.bin");
 }
