@@ -14,24 +14,71 @@
  limitations under the License.
 */
 
+#include <fstream>
+#include <iostream>
 #include "CSTLTestFile.h"
 
-CSTLTestFile::CSTLTestFile(void) {
+CSTLTestFile::CSTLTestFile(void)
+{
 
 }
 
-CSTLTestFile::~CSTLTestFile() {
+CSTLTestFile::~CSTLTestFile()
+{
 
 }
 
-void CSTLTestFile::setup(void) {
+void CSTLTestFile::setup(void)
+{
 
 }
 
-void CSTLTestFile::test(void) {
+void CSTLTestFile::test(void)
+{
+	// text file write
+	{
+		std::ofstream ofs("temp.txt");
+		if (ofs) {
+			ofs << "Hello, world1" << std::endl;
+			ofs << "Hello, world2" << std::endl;
+		}
+	}
 
+	// text file read
+	{
+		std::ifstream ifs("temp.txt");
+		if ( ifs ) {
+			while (!ifs.eof()) {
+				std::string buf;
+				getline(ifs, buf);
+				if( !buf.empty() ) {
+					std::cout << buf << std::endl;
+				}
+			}
+		}
+	}
+
+	// binary file write
+	{
+		std::ofstream ofs("temp.bin", std::ios_base::out | std::ios_base::binary);
+		if( ofs ){
+			int n = 1000;
+			ofs.write( (const char*)&n, sizeof(n));
+		}
+	}
+
+	// binary file read
+	{
+		std::ifstream ifs("temp.bin", std::ios_base::in | std::ios_base::binary);
+		if( ifs ){
+			int n=0;
+			ifs.read((char*)&n,sizeof(n));
+			std::cout << n << std::endl;
+		}
+	}
 }
 
-void CSTLTestFile::cleanup(void) {
+void CSTLTestFile::cleanup(void)
+{
 
 }
