@@ -48,18 +48,16 @@ class vector2dUtil
 public:
 	static std::vector<std::vector<T>> transpose(std::vector<std::vector<T>>& inData)
 	{
-		if(inData.size()!=0){
-			std::vector<std::vector<T>> outData( inData[0].size(), std::vector<T>(inData.size()) );
-			for(int x=0; x<inData.size(); x++){
-				for(int y=0; y<inData[x].size(); y++){
+		std::vector<std::vector<T>> outData;
+		if(inData.size()!=0) {
+			outData.assign(inData[0].size(), std::vector<T>(inData.size()));
+			for (int x = 0; x < inData.size(); x++) {
+				for (int y = 0; y < inData[x].size(); y++) {
 					outData[y][x] = inData[x][y];
 				}
 			}
-			return outData;
-		} else {
-			std::vector<std::vector<T>> tmp;
-			return tmp;
 		}
+		return outData;
 	}
 };
 
