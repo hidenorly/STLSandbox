@@ -76,12 +76,26 @@ void CSTLTestVector::test(void) {
 		std::cout << *it << std::endl;
 	}
 
+	// insert
 	std::vector<int> v{0};
 	std::vector<int> v2{503,502,501};
 	v.insert(v.begin(), v2.begin(), v2.end()); // insert v2 for head of v.
 	for( auto& item : v ){
 		std::cout << item << std::endl; // 503,502,501,0
 	}
+
+	// sort
+	std::sort( v.begin(), v.end()); // normal order
+	for( auto& item : v ){ std::cout << item << std::endl;}
+	std::sort( v.begin(), v.end(),std::greater<int>()); // reverse order
+	for( auto& item : v ){ std::cout << item << std::endl;}
+	// sort with rambda
+	std::sort( v.begin(), v.end(),
+			   [](const int& a, const int& b){
+				   return (a < b);
+			   }
+	);
+	for( auto& item : v ){ std::cout << item << std::endl;}
 
 	// 2 dimensions vector [10][20] with 0 initial value
 	std::vector< std::vector<int> > xyMap(10, std::vector<int>(20,0));
