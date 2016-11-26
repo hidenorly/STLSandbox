@@ -18,6 +18,12 @@
 #include <iostream>
 #include "CSTLTestFile.h"
 
+#define USE_C_IMPLEMENTATION 1
+
+#if USE_C_IMPLEMENTATION
+	#include <sys/stat.h>
+#endif // USE_C_IMPLEMENTATION
+
 CSTLTestFile::CSTLTestFile(void)
 {
 
@@ -30,14 +36,13 @@ CSTLTestFile::~CSTLTestFile()
 
 void CSTLTestFile::setup(void)
 {
-
 }
 
 void CSTLTestFile::test(void)
 {
 	// text file write
 	{
-		std::ofstream ofs("temp.txt");
+		std::ofstream ofs(TEXT_FILENAME);
 		if (ofs) {
 			ofs << "Hello, world1" << std::endl;
 			ofs << "Hello, world2" << std::endl;
@@ -46,7 +51,7 @@ void CSTLTestFile::test(void)
 
 	// text file read
 	{
-		std::ifstream ifs("temp.txt");
+		std::ifstream ifs(TEXT_FILENAME);
 		if ( ifs ) {
 			while (!ifs.eof()) {
 				std::string buf;
@@ -60,7 +65,7 @@ void CSTLTestFile::test(void)
 
 	// binary file write
 	{
-		std::ofstream ofs("temp.bin", std::ios_base::out | std::ios_base::binary);
+		std::ofstream ofs(BINARY_FILENAME, std::ios_base::out | std::ios_base::binary);
 		if( ofs ){
 			int n = 1000;
 			ofs.write( (const char*)&n, sizeof(n));
@@ -69,7 +74,7 @@ void CSTLTestFile::test(void)
 
 	// binary file read
 	{
-		std::ifstream ifs("temp.bin", std::ios_base::in | std::ios_base::binary);
+		std::ifstream ifs(BINARY_FILENAME, std::ios_base::in | std::ios_base::binary);
 		if( ifs ){
 			int n=0;
 			ifs.read((char*)&n,sizeof(n));
@@ -80,6 +85,17 @@ void CSTLTestFile::test(void)
 
 void CSTLTestFile::cleanup(void)
 {
-	std::remove("temp.txt");
-	std::remove("temp.bin");
+	std::remove(TEXT_FILENAME.c_str());
+	std::remove(BINARY_FILENAME.c_str());
+}
+
+bool CSTLTestFile::exists(std::string &filename)
+{
+#if USE_C_IMPLEMENTATION
+	struct stat buf;
+	return (stat(filename.c_str(), &buf) == 0);
+#else
+	std::ifstream ifs(filename);
+	return (bool)ifs;
+#endif
 }

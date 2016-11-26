@@ -14,28 +14,25 @@
  limitations under the License.
 */
 
-#ifndef TEST1_CSTLTESTFILE_H
-#define TEST1_CSTLTESTFILE_H
 
+#ifndef TEST1_CSTRINGTOKENIZER_H
+#define TEST1_CSTRINGTOKENIZER_H
 
-#include "ISTLTest.h"
+#include <string>
 
-class CSTLTestFile : public ISTLTest
-{
+class CStringTokenizer {
 public:
-	CSTLTestFile(void);
-	virtual ~CSTLTestFile();
-
-	virtual void setup(void);
-	virtual void test(void);
-	virtual void cleanup(void);
+	CStringTokenizer(const std::string& str, const std::string& token);
+	virtual ~CStringTokenizer(void);
+	bool hasNext(void);
+	std::string getNext(void);
+	std::string getNextWithTrim(void);
 
 protected:
-	const std::string TEXT_FILENAME="temp.txt";
-	const std::string BINARY_FILENAME="temp.bin";
-
-	bool exists(std::string& filename);
+	std::string mBuffer;
+	std::string mToken;
+	unsigned long mCurrentPos;
 };
 
 
-#endif //TEST1_CSTLTESTFILE_H
+#endif //TEST1_CSTRINGTOKENIZER_H

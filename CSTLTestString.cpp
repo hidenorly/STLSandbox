@@ -15,6 +15,7 @@
 */
 
 #include "CSTLTestString.h"
+#include "CStringTokenizer.h"
 #include <iostream>
 #include <string>
 
@@ -100,6 +101,14 @@ void CSTLTestString::test(void) {
 	rawBuf[len] = '\0';	// don't forget
 
 	std::cout << rawBuf << std::endl;
+
+
+	std::cout << "CStringTokenizer Test" << std::endl;
+	std::string buf = "1 , 10,,xyz,111";
+	CStringTokenizer tok(buf, ",");
+	while(tok.hasNext()){
+		std::cout << tok.getNextWithTrim() << std::endl;
+	}
 
 }
 
